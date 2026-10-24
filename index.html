@@ -265,6 +265,19 @@
 </head>
 <body class="min-h-screen pb-44">
 
+  <!-- Audio Elements (Intro Music, Click Sound, Main Music) -->
+  <audio id="introMusic" loop>
+    <source src="./images/intro-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="clickSound">
+    <source src="./images/click-sound.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="mainMusic" loop>
+    <source src="./images/main-music.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Swipe Gesture Indicator for Mobile Users -->
   <div class="swipe-hint shadow-lg">
     👈 Swipe to change background 👉
@@ -315,8 +328,8 @@
         </div>
       </div>
 
-      <button onclick="launchJourney()" class="touch-hint bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-2xl px-10 py-4 rounded-full shadow-2xl transition border-2 border-amber-200 tracking-wider">
-        ⚔️කලාවේ තීර්ත යාත්‍රාවට මෙතනින් පිවිසෙන්න⛵
+      <button onclick="launchJourney()" class="touch-hint bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xl md:text-2xl px-8 py-4 rounded-full shadow-2xl transition border-2 border-amber-200 tracking-wider">
+        ⚔️ කලාවේ තීර්ත යාත්‍රාවට මෙතනින් පිවිසෙන්න ⛵
       </button>
     </div>
   </div>
@@ -356,7 +369,7 @@
   </div>
 
   <!-- Header -->
-  <header class="text-center py-14 px-4 relative border-b-4 border-amber-500/80 z-10 i-950/20 ">
+  <header class="text-center py-14 px-4 relative border-b-4 border-amber-500/80 z-10 bg-slate-950/25 backdrop-blur-sm">
     <div class="max-w-4xl mx-auto">
       <!-- PNG Logo instead of text -->
       <img src="./images/title-logo.png" alt="සුභාසර" class="w-80 sm:w-[28rem] md:w-[34rem] mx-auto drop-shadow-[0_0_40px_rgba(251,191,36,0.9)] mb-6">
@@ -460,9 +473,43 @@
   </footer>
 
   <script>
+    // Screen එක Touch කළ සැනින් Intro Music එක Play කිරීමට (Browser Policy නිසා අවශ්‍ය වේ)
+    window.addEventListener('click', playIntroOnce, { once: true });
+    window.addEventListener('touchstart', playIntroOnce, { once: true });
+
+    function playIntroOnce() {
+      const introMusic = document.getElementById('introMusic');
+      if (introMusic && introMusic.paused) {
+        introMusic.volume = 0.5;
+        introMusic.play().catch(e => console.log("Intro autoplay blocked:", e));
+      }
+    }
+
     function launchJourney() {
       const shipWrapper = document.getElementById('shipBtn');
       const introOverlay = document.getElementById('introOverlay');
+      
+      const introMusic = document.getElementById('introMusic');
+      const clickSound = document.getElementById('clickSound');
+      const mainMusic = document.getElementById('mainMusic');
+
+      // 1. Stop Intro Music
+      if (introMusic) {
+        introMusic.pause();
+        introMusic.currentTime = 0;
+      }
+
+      // 2. Play Click Sound effect
+      if (clickSound) {
+        clickSound.volume = 0.9;
+        clickSound.play().catch(e => console.log("Click sound error:", e));
+      }
+
+      // 3. Play Main Page Background Music (Looping automatically)
+      if (mainMusic) {
+        mainMusic.volume = 0.5;
+        mainMusic.play().catch(e => console.log("Main music error:", e));
+      }
 
       shipWrapper.classList.add('ship-sailing-away');
 
