@@ -297,107 +297,14 @@
 
       <div class="pt-4 pb-2">
         <div id="shipBtn" onclick="launchJourney()" class="intro-ship-wrapper inline-block">
-          <!-- Highly Detailed & Realistic Viking Ship SVG -->
-          <svg class="intro-viking-ship" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <!-- Wooden Hull Gradient -->
-              <linearGradient id="woodHull" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#b45309" />
-                <stop offset="40%" stop-color="#78350f" />
-                <stop offset="80%" stop-color="#451a03" />
-                <stop offset="100%" stop-color="#1c0a00" />
-              </linearGradient>
+          <!-color="#991b1b" />
+                <div class="pt-4 pb-2">
+        <div id="shipBtn" onclick="launchJourney()" class="intro-ship-wrapper inline-block">
+          <img src="./images/intro-ship.png" alt="Viking Ship" class="intro-viking-ship object-contain">
+        </div>
+      </div>
 
-              <!-- Sail Gradient -->
-              <linearGradient id="vikingSail" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f87171" />
-                <stop offset="35%" stop-color="#dc2626" />
-                <stop offset="75%" stop-color="#991b1b" />
-                <stop offset="100%" stop-color="#450a0a" />
-              </linearGradient>
-
-              <!-- Gold Accents -->
-              <linearGradient id="goldCarving" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#fef08a" />
-                <stop offset="50%" stop-color="#f59e0b" />
-                <stop offset="100%" stop-color="#b45309" />
-              </linearGradient>
-
-              <!-- Wood Plank Shadow -->
-              <linearGradient id="plankShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="rgba(0,0,0,0.6)" />
-                <stop offset="100%" stop-color="rgba(0,0,0,0)" />
-              </linearGradient>
-            </defs>
-
-            <!-- Water Reflection Effect -->
-            <ellipse cx="400" cy="500" rx="320" ry="25" fill="#f59e0b" opacity="0.15" class="blur-md" />
-
-            <!-- Main Wooden Hull -->
-            <path d="M 100 370 C 220 530, 580 530, 700 370 C 620 460, 180 460, 100 370 Z" fill="url(#woodHull)" stroke="#fbbf24" stroke-width="3" />
             
-            <!-- Wood Planks Lines -->
-            <path d="M 120 390 Q 400 500 680 390" stroke="#2a0d02" stroke-width="5" fill="none" />
-            <path d="M 140 410 Q 400 510 660 410" stroke="#2a0d02" stroke-width="4" fill="none" />
-            <path d="M 170 430 Q 400 520 630 430" stroke="#2a0d02" stroke-width="3" fill="none" />
-
-            <!-- Ornate Dragon Head Stem (Bow) -->
-            <path d="M 690 380 C 740 330, 780 230, 740 140 C 715 175, 700 200, 680 220 C 650 180, 670 290, 680 350 Z" fill="url(#goldCarving)" stroke="#451a03" stroke-width="4" />
-            <circle cx="732" cy="175" r="6" fill="#000" />
-            <path d="M 740 140 C 760 120, 785 110, 770 145 C 755 155, 745 148, 740 140 Z" fill="#ef4444" stroke="#451a03" stroke-width="2" />
-
-            <!-- Stern (Tail Carving) -->
-            <path d="M 110 380 C 60 330, 20 230, 60 140 C 85 175, 100 200, 120 220 C 150 180, 130 290, 120 350 Z" fill="url(#goldCarving)" stroke="#451a03" stroke-width="4" />
-
-            <!-- Mast -->
-            <line x1="400" y1="460" x2="400" y2="90" stroke="#2a0d02" stroke-width="18" stroke-linecap="round" />
-            <line x1="395" y1="460" x2="395" y2="90" stroke="#78350f" stroke-width="6" stroke-linecap="round" />
-
-            <!-- Rigging Lines (Ropes) -->
-            <line x1="400" y1="110" x2="130" y2="380" stroke="#d97706" stroke-width="2" opacity="0.8" />
-            <line x1="400" y1="110" x2="670" y2="380" stroke="#d97706" stroke-width="2" opacity="0.8" />
-            <line x1="400" y1="200" x2="150" y2="380" stroke="#d97706" stroke-width="1.5" opacity="0.6" />
-            <line x1="400" y1="200" x2="650" y2="380" stroke="#d97706" stroke-width="1.5" opacity="0.6" />
-
-            <!-- Yardarm (Cross Beam) -->
-            <line x1="220" y1="130" x2="580" y2="130" stroke="#451a03" stroke-width="10" stroke-linecap="round" />
-
-            <!-- Curved Billowing Sail -->
-            <path d="M 230 135 Q 400 100 570 135 Q 530 330 400 355 Q 270 330 230 135 Z" fill="url(#vikingSail)" stroke="#fef08a" stroke-width="4" />
-            
-            <!-- Sail Vertical Stripes -->
-            <path d="M 290 130 Q 320 240 310 342" stroke="#fef08a" stroke-width="8" opacity="0.4" fill="none" />
-            <path d="M 350 120 Q 370 240 365 352" stroke="#fef08a" stroke-width="8" opacity="0.4" fill="none" />
-            <path d="M 450 120 Q 430 240 435 352" stroke="#fef08a" stroke-width="8" opacity="0.4" fill="none" />
-            <path d="M 510 130 Q 480 240 490 342" stroke="#fef08a" stroke-width="8" opacity="0.4" fill="none" />
-
-            <!-- Viking Shields Mounted on Hull Side -->
-            <g id="shields">
-              <circle cx="200" cy="425" r="22" fill="#dc2626" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="200" cy="425" r="6" fill="#fbbf24" />
-
-              <circle cx="260" cy="435" r="22" fill="#1e3a8a" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="260" cy="435" r="6" fill="#fbbf24" />
-
-              <circle cx="320" cy="442" r="22" fill="#dc2626" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="320" cy="442" r="6" fill="#fbbf24" />
-
-              <circle cx="380" cy="445" r="22" fill="#1e3a8a" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="380" cy="445" r="6" fill="#fbbf24" />
-
-              <circle cx="440" cy="445" r="22" fill="#dc2626" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="440" cy="445" r="6" fill="#fbbf24" />
-
-              <circle cx="500" cy="442" r="22" fill="#1e3a8a" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="500" cy="442" r="6" fill="#fbbf24" />
-
-              <circle cx="560" cy="435" r="22" fill="#dc2626" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="560" cy="435" r="6" fill="#fbbf24" />
-
-              <circle cx="620" cy="425" r="22" fill="#1e3a8a" stroke="#fbbf24" stroke-width="4" />
-              <circle cx="620" cy="425" r="6" fill="#fbbf24" />
-            </g>
-          </svg>
         </div>
       </div>
 
