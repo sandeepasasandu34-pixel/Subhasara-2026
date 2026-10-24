@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>සුභාසර 2026</title>
+  
+  <!-- Google Font: Gemunu Libre -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* All elements use Gemunu Libre Font */
+    * {
+      font-family: 'Gemunu Libre', sans-serif !important;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #060c1a;
+      color: #f8fafc;
+      overflow-x: hidden;
+      position: relative;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+      user-select: none;
+    }
+
+    /* 1. INTRO LOADING SCREEN */
+    #introOverlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(30, 27, 75, 0.6) 0%, rgba(6, 12, 26, 0.95) 100%), url('./images/image1.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+      padding: 20px;
+    }
+
+    #introOverlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .intro-ship-wrapper {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .intro-ship-wrapper:active {
+      transform: scale(0.92);
+    }
+
+    .intro-viking-ship {
+      width: 260px;
+      height: auto;
+      filter: drop-shadow(0px 10px 30px rgba(251, 191, 36, 0.8));
+      animation: realisticBobbing 3.5s ease-in-out infinite;
+    }
+
+    @keyframes realisticBobbing {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(-3deg); }
+    }
+
+    .ship-sailing-away {
+      animation: sailAway 1.8s forwards cubic-bezier(0.55, 0.055, 0.675, 0.19) !important;
+    }
+
+    @keyframes sailAway {
+      0% { transform: scale(1) translateX(0); opacity: 1; }
+      50% { transform: scale(1.2) translateX(120px) translateY(-20px); opacity: 0.8; }
+      100% { transform: scale(0.1) translateX(900px) translateY(-150px); opacity: 0; }
+    }
+
+    .touch-hint {
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.85; transform: scale(1); box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
+      50% { opacity: 1; transform: scale(1.06); box-shadow: 0 0 30px rgba(251, 191, 36, 0.9); }
+    }
+
+    /* 2. AUTO-CHANGING BACKGROUND SLIDER */
+    .bg-slider {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out, transform 8s ease-out;
+      transform: scale(1);
+    }
+
+    .bg-slide-1 {
+      background-image: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.2) 0%, transparent 70%),
+                        linear-gradient(to bottom, rgba(11, 19, 41, 0.35), rgba(6, 12, 26, 0.75)),
+                        url('./images/image1.jpg');
+    }
+
+    .bg-slide-2 {
+      background-image: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.2) 0%, transparent 70%),
+                        linear-gradient(to bottom, rgba(11, 19, 41, 0.35), rgba(6, 12, 26, 0.75)),
+                        url('./images/image2.jpg');
+    }
+
+    .bg-slide.active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    /* BACKGROUND WALKING VIKING WITH AXE ANIMATION */
+    .background-viking-walker {
+      position: fixed;
+      bottom: 20px;
+      left: -180px;
+      width: 140px;
+      height: auto;
+      z-index: 3;
+      pointer-events: none;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8)) brightness(0.3);
+      animation: walkAcross 22s linear infinite;
+    }
+
+    @keyframes walkAcross {
+      0% { transform: translateX(0) scaleX(1); opacity: 0; }
+      5% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateX(calc(100vw + 250px)) scaleX(1); opacity: 0; }
+    }
+
+    /* CANVAS SPARKLES & SCROLL SHIP */
+    #sparklesCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .ocean-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 130px;
+      pointer-events: none;
+      z-index: 40;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 45px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="%230f172a" opacity="0.9"/></svg>');
+      background-size: 1200px 45px;
+      animation: waveMove 10s linear infinite;
+    }
+
+    .wave2 {
+      bottom: -8px;
+      opacity: 0.6;
+      animation: waveMove 6s linear infinite reverse;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .viking-ship-scroll {
+      position: absolute;
+      bottom: 15px;
+      left: -150px;
+      width: 110px;
+      height: auto;
+      transition: transform 0.1s ease-out;
+      filter: drop-shadow(0px 8px 12px rgba(245, 158, 11, 0.5));
+      animation: bobbing 3s ease-in-out infinite;
+    }
+
+    @keyframes bobbing {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(-2deg); }
+    }
+
+    /* GESTURE TOUCH ACTIVE CARDS & LOWER OPACITY FOR COUNTDOWN */
+    .viking-card {
+      background: rgba(15, 23, 42, 0.55); /* Opacity komiye semi-transparent kora hoyeche */
+      border: 2px solid #f59e0b;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      position: relative;
+      z-index: 10;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+    }
+
+    .viking-card:active {
+      transform: scale(0.98);
+      box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .gold-glow {
+      text-shadow: 0 0 30px rgba(251, 191, 36, 0.9), 0 0 12px rgba(245, 158, 11, 0.7);
+    }
+
+    .timer-box {
+      background: rgba(6, 12, 26, 0.65); /* Timer box-er opacity-o komano hoyeche */
+      border: 2px solid #fbbf24;
+      box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.2), 0 0 15px rgba(251, 191, 36, 0.3);
+    }
+
+    /* FOOTER BANNER */
+    .exact-footer-banner {
+      background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+      border: 3px solid #f59e0b;
+      border-radius: 9999px;
+      color: #000000;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 20px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Swipe Gesture Visual Indicator */
+    .swipe-hint {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 50;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #fbbf24;
+      pointer-events: none;
+      animation: fadeHint 5s forwards;
+    }
+
+    @keyframes fadeHint {
+      0%, 80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-44">
+
+  <!-- Swipe Gesture Indicator for Mobile Users -->
+  <div class="swipe-hint shadow-lg">
+    👈 Swipe to change background 👉
+  </div>
+
+  <!-- 1. TOUCH INTRO LOADING SCREEN -->
+  <div id="introOverlay">
+    <div class="max-w-xl mx-auto space-y-6 px-4">
+      <h1 class="text-8xl md:text-9xl font-extrabold text-amber-400 gold-glow tracking-wider">
+        සුභාසර
+      </h1>
+
+      <p class="text-2xl md:text-3xl text-amber-100 font-bold tracking-wide drop-shadow-md">
+        කලාවේ තීර්ත යාත්‍රා සොයා යන තාක්ෂණවේදීන්ගේ ආගමනය
+      </p>
+
+      <div class="pt-4 pb-2">
+        <div id="shipBtn" onclick="launchJourney()" class="intro-ship-wrapper inline-block">
+          <svg class="intro-viking-ship" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hullGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d97706" />
+                <stop offset="50%" stop-color="#78350f" />
+                <stop offset="100%" stop-color="#451a03" />
+              </linearGradient>
+              <linearGradient id="sailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ef4444" />
+                <stop offset="50%" stop-color="#dc2626" />
+                <stop offset="100%" stop-color="#991b1b" />
+              </linearGradient>
+              <linearGradient id="goldGlowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a" />
+                <stop offset="100%" stop-color="#f59e0b" />
+              </linearGradient>
+            </defs>
+
+            <path d="M 60 270 C 130 390, 470 390, 540 270 C 480 340, 120 340, 60 270 Z" fill="url(#hullGrad)" stroke="#fbbf24" stroke-width="5" />
+            <path d="M 535 275 C 565 240, 585 170, 555 110 C 540 135, 530 150, 520 160 C 500 130, 515 210, 525 255 Z" fill="url(#goldGlowGrad)" stroke="#78350f" stroke-width="3" />
+            <circle cx="548" cy="135" r="4" fill="#000" />
+            <path d="M 65 275 C 35 240, 15 170, 45 110 C 60 135, 70 150, 80 160 C 100 130, 85 210, 75 255 Z" fill="url(#goldGlowGrad)" stroke="#78350f" stroke-width="3" />
+            <line x1="300" y1="330" x2="300" y2="70" stroke="#451a03" stroke-width="12" stroke-linecap="round" />
+            <line x1="180" y1="95" x2="420" y2="95" stroke="#451a03" stroke-width="8" stroke-linecap="round" />
+            <path d="M 190 100 Q 300 70 410 100 Q 380 230 300 250 Q 220 230 190 100 Z" fill="url(#sailGrad)" stroke="#fef08a" stroke-width="3" />
+            <circle cx="210" cy="320" r="16" fill="#dc2626" stroke="#451a03" stroke-width="4" />
+            <circle cx="260" cy="325" r="16" fill="#fbbf24" stroke="#451a03" stroke-width="4" />
+            <circle cx="310" cy="327" r="16" fill="#dc2626" stroke="#451a03" stroke-width="4" />
+            <circle cx="360" cy="325" r="16" fill="#fbbf24" stroke="#451a03" stroke-width="4" />
+          </svg>
+        </div>
+      </div>
+
+      <button onclick="launchJourney()" class="touch-hint bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-2xl px-10 py-4 rounded-full shadow-2xl transition border-2 border-amber-200 tracking-wider">
+        ⚔️ CLICK HERE TO ENTER ⛵
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. MAIN WEBSITE CONTENT BACKGROUND SLIDER -->
+  <div class="bg-slider">
+    <div id="slide1" class="bg-slide bg-slide-1 active"></div>
+    <div id="slide2" class="bg-slide bg-slide-2"></div>
+  </div>
+
+  <!-- Background Walking Viking with Axe Silhouette -->
+  <svg class="background-viking-walker" viewBox="0 0 200 300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M90 100 L110 100 L115 140 L85 140 Z" fill="#f59e0b"/>
+    <circle cx="100" cy="80" r="18" fill="#d97706"/>
+    <path d="M85 70 C70 60, 60 40, 50 30 C70 45, 80 65, 88 75 Z" fill="#fbbf24"/>
+    <path d="M115 70 C130 60, 140 40, 150 30 C130 45, 120 65, 112 75 Z" fill="#fbbf24"/>
+    <path d="M75 135 L125 135 L135 220 L65 220 Z" fill="#b45309"/>
+    <line x1="85" y1="220" x2="75" y2="280" stroke="#d97706" stroke-width="8" stroke-linecap="round"/>
+    <line x1="115" y1="220" x2="125" y2="280" stroke="#d97706" stroke-width="8" stroke-linecap="round"/>
+    <line x1="110" y1="130" x2="140" y2="110" stroke="#78350f" stroke-width="5"/>
+    <path d="M135 95 L155 105 L145 130 Z" fill="#fbbf24"/>
+  </svg>
+
+  <canvas id="sparklesCanvas"></canvas>
+
+  <div class="ocean-container">
+    <svg id="vikingShipScroll" class="viking-ship-scroll" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M464 256C464 360 380 432 256 432C132 432 48 360 48 256" stroke="#b45309" stroke-width="20" stroke-linecap="round"/>
+      <path d="M60 260 C 120 380, 392 380, 452 260 C 400 320, 112 320, 60 260 Z" fill="#78350f" stroke="#fbbf24" stroke-width="6"/>
+      <path d="M448 265 C 470 230, 480 180, 460 140 C 450 160, 440 170, 435 180 C 420 160, 430 220, 440 250 Z" fill="#d97706"/>
+      <path d="M64 265 C 42 230, 32 180, 52 140 C 62 160, 72 170, 77 180 C 92 160, 82 220, 72 250 Z" fill="#d97706"/>
+      <line x1="256" y1="310" x2="256" y2="100" stroke="#78350f" stroke-width="10"/>
+      <path d="M170 120 Q 256 90 342 120 Q 320 220 256 240 Q 192 220 170 120 Z" fill="#ef4444" stroke="#fef08a" stroke-width="4"/>
+    </svg>
+    <div class="wave wave2"></div>
+    <div class="wave"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="text-center py-14 px-4 relative border-b-4 border-amber-500/80 z-10 bg-slate-950/40 backdrop-blur-md">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-8xl md:text-9xl font-extrabold text-amber-400 gold-glow mb-2 tracking-wider">
+        සුභාසර
+      </h1>
+
+      <p class="text-3xl md:text-4xl text-amber-200 font-bold tracking-wider mb-8 drop-shadow-md">
+        කලාවේ තීර්ත යාත්‍රා සොයා යන තාක්ෂණවේදීන්ගේ ආගමනය
+      </p>
+
+      <!-- Countdown Timer Component (Lower Opacity) -->
+      <div class="viking-card p-6 max-w-2xl mx-auto mb-8 border-2 border-amber-400">
+        <div class="text-amber-300 text-xl font-extrabold uppercase tracking-widest mb-3 flex items-center justify-center gap-2">
+          <span>⏳</span> WAITING IS OVER IN <span>⏳</span>
+        </div>
+        <div class="text-amber-100 text-lg font-bold mb-4">
+          October 27, 2026 - 5:00 PM
+        </div>
+        
+        <div class="grid grid-cols-4 gap-2 sm:gap-4">
+          <div class="timer-box p-3 rounded-xl text-center">
+            <span id="days" class="block text-4xl sm:text-6xl font-extrabold text-amber-400">00</span>
+            <span class="text-sm sm:text-base text-amber-200 font-bold uppercase">Days</span>
+          </div>
+          <div class="timer-box p-3 rounded-lg text-center">
+            <span id="hours" class="block text-4xl sm:text-6xl font-extrabold text-amber-400">00</span>
+            <span class="text-sm sm:text-base text-amber-200 font-bold uppercase">Hours</span>
+          </div>
+          <div class="timer-box p-3 rounded-lg text-center">
+            <span id="minutes" class="block text-4xl sm:text-6xl font-extrabold text-amber-400">00</span>
+            <span class="text-sm sm:text-base text-amber-200 font-bold uppercase">Minutes</span>
+          </div>
+          <div class="timer-box p-3 rounded-lg text-center">
+            <span id="seconds" class="block text-4xl sm:text-6xl font-extrabold text-amber-400">00</span>
+            <span class="text-sm sm:text-base text-amber-200 font-bold uppercase">Seconds</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Venue Card Section -->
+      <div class="viking-card p-6 max-w-xl mx-auto mb-8 text-center border-2 border-amber-400">
+        <div class="text-4xl mb-1">📍</div>
+        <h3 class="text-2xl font-extrabold text-amber-300 mb-1">VENUE</h3>
+        <p class="text-amber-100 font-extrabold text-2xl md:text-3xl leading-relaxed">
+          Prof. J.W. Dayananda Somasundara Auditorium
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-4xl mx-auto px-4 py-12 space-y-16 relative z-10">
+
+    <!-- 3. INVITATION SECTION -->
+    <section id="invitation" class="viking-card p-8 md:p-12 text-center space-y-6 border-2 border-amber-400 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-36 h-36 bg-amber-400/20 rounded-full blur-3xl"></div>
+      
+      <div class="inline-block px-5 py-1.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/60 text-base font-extrabold tracking-widest uppercase mb-2">
+        ✨ OFFICIAL INVITATION ✨
+      </div>
+
+      <h2 class="text-4xl md:text-6xl font-extrabold text-amber-300 gold-glow">
+        You Are Cordially Invited!
+      </h2>
+
+      <p class="text-2xl md:text-3xl text-slate-100 leading-relaxed max-w-2xl mx-auto font-semibold">
+        We warmly invite you all to <span class="text-amber-300 font-black">"Subhasara 2026"</span>, the Annual Arts Festival of Technologists, organized by the Arts Subcommittee of the Faculty of Technology Students' Union, Sabaragamuwa University of Sri Lanka!
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 text-amber-200 font-extrabold text-xl">
+        <div class="p-4 rounded-xl bg-slate-950/60 border border-amber-400/50 shadow-inner">
+          🗓️ October 27, 2026
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/60 border border-amber-400/50 shadow-inner">
+          🕔 From 5:00 PM onwards
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/60 border border-amber-400/50 shadow-inner">
+          📍 Prof. J.W. Dayananda Somasundara Auditorium
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 4. FOOTER BANNER -->
+  <footer class="w-full py-8 px-4 relative z-30 flex justify-center items-center">
+    <div class="exact-footer-banner px-6 py-3 max-w-4xl w-full flex items-center gap-4 shadow-2xl">
+      
+      <!-- Local image5.jpg Image Tag -->
+      <img src="./images/image5.jpg" alt="Art Subcommittee Logo" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover shrink-0 border-2 border-amber-600 bg-white p-0.5">
+
+      <!-- Text Matching Banner -->
+      <div class="leading-tight text-black font-extrabold">
+        <div class="text-base sm:text-lg md:text-2xl font-black tracking-tight">
+          කලා අනුකමිටුව - තාක්ෂණ පීඨ ශිෂ්‍ය සංගමය - ශ්‍රී ලංකා සබරගමුව විශ්වවිද්‍යාලය
+        </div>
+        <div class="text-xs sm:text-sm md:text-base font-bold tracking-tight text-amber-900 mt-0.5">
+          Arts Subcommittee | FOT Students' Union | Sabaragamuwa University of Sri Lanka
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    function launchJourney() {
+      const shipWrapper = document.getElementById('shipBtn');
+      const introOverlay = document.getElementById('introOverlay');
+
+      shipWrapper.classList.add('ship-sailing-away');
+
+      setTimeout(() => {
+        introOverlay.classList.add('fade-out');
+      }, 1000);
+    }
+
+    // Countdown Timer logic for October 27, 2026 at 5:00 PM
+    const targetDate = new Date('2026-10-27T17:00:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        document.getElementById('days').innerText = "00";
+        document.getElementById('hours').innerText = "00";
+        document.getElementById('minutes').innerText = "00";
+        document.getElementById('seconds').innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+      document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+      document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+      document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* --- AUTO BACKGROUND SLIDER LOGIC --- */
+    const slide1 = document.getElementById('slide1');
+    const slide2 = document.getElementById('slide2');
+    let currentSlide = 1;
+
+    function switchSlide() {
+      if (currentSlide === 1) {
+        slide1.classList.remove('active');
+        slide2.classList.add('active');
+        currentSlide = 2;
+      } else {
+        slide2.classList.remove('active');
+        slide1.classList.add('active');
+        currentSlide = 1;
+      }
+    }
+
+    // 5 seconds por por background automatic change hobe
+    let slideInterval = setInterval(switchSlide, 5000);
+
+    /* --- MOBILE TOUCH SWIPE GESTURE DETECTOR --- */
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    window.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (Math.abs(swipeDistance) > 50) {
+        switchSlide();
+        clearInterval(slideInterval);
+        slideInterval = setInterval(switchSlide, 5000);
+      }
+    }
+
+    // Sparkles Effect
+    const canvas = document.getElementById('sparklesCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height + canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedY = Math.random() * 0.8 + 0.2;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.opacity = Math.random() * 0.7 + 0.3;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -10) this.reset();
+      }
+      draw() {
+        ctx.fillStyle = `rgba(251, 191, 36, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 50; i++) { particles.push(new Particle()); }
+
+    function animateSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+
+    // Scroll-driven Viking Ship Motion
+    const shipScroll = document.getElementById('vikingShipScroll');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollTop / docHeight;
+      const maxMove = window.innerWidth + 150;
+      const currentPos = (scrollPercent * maxMove) - 100;
+      shipScroll.style.left = `${currentPos}px`;
+    });
+  </script>
+</body>
+</html>
