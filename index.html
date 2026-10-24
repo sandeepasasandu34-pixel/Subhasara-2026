@@ -206,7 +206,7 @@
 
     /* GESTURE TOUCH ACTIVE CARDS & LOWER OPACITY FOR COUNTDOWN */
     .viking-card {
-      background: rgba(15, 23, 42, 0.55); /* Opacity komiye semi-transparent kora hoyeche */
+      background: rgba(15, 23, 42, 0.55);
       border: 2px solid #f59e0b;
       box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.2);
       backdrop-filter: blur(8px);
@@ -226,7 +226,7 @@
     }
 
     .timer-box {
-      background: rgba(6, 12, 26, 0.65); /* Timer box-er opacity-o komano hoyeche */
+      background: rgba(6, 12, 26, 0.65);
       border: 2px solid #fbbf24;
       box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.2), 0 0 15px rgba(251, 191, 36, 0.3);
     }
@@ -273,9 +273,8 @@
   <!-- 1. TOUCH INTRO LOADING SCREEN -->
   <div id="introOverlay">
     <div class="max-w-xl mx-auto space-y-6 px-4">
-      <h1 class="text-8xl md:text-9xl font-extrabold text-amber-400 gold-glow tracking-wider">
-        සුභාසර
-      </h1>
+      <!-- PNG Logo instead of text -->
+      <img src="./images/title-logo.png" alt="සුභාසර" class="w-72 sm:w-80 md:w-96 mx-auto drop-shadow-[0_0_35px_rgba(251,191,36,0.85)] animate-pulse mb-3">
 
       <p class="text-2xl md:text-3xl text-amber-100 font-bold tracking-wide drop-shadow-md">
         කලාවේ තීර්ත යාත්‍රා සොයා යන තාක්ෂණවේදීන්ගේ ආගමනය
@@ -359,9 +358,8 @@
   <!-- Header -->
   <header class="text-center py-14 px-4 relative border-b-4 border-amber-500/80 z-10 bg-slate-950/40 backdrop-blur-md">
     <div class="max-w-4xl mx-auto">
-      <h1 class="text-8xl md:text-9xl font-extrabold text-amber-400 gold-glow mb-2 tracking-wider">
-        සුභාසර
-      </h1>
+      <!-- PNG Logo instead of text -->
+      <img src="./images/title-logo.png" alt="සුභාසර" class="w-80 sm:w-[28rem] md:w-[34rem] mx-auto drop-shadow-[0_0_40px_rgba(251,191,36,0.9)] mb-6">
 
       <p class="text-3xl md:text-4xl text-amber-200 font-bold tracking-wider mb-8 drop-shadow-md">
         කලාවේ තීර්ත යාත්‍රා සොයා යන තාක්ෂණවේදීන්ගේ ආගමනය
@@ -423,7 +421,7 @@
       </h2>
 
       <p class="text-2xl md:text-3xl text-slate-100 leading-relaxed max-w-2xl mx-auto font-semibold">
-        <span class="text-amber-300 font-black">"Subhasara 2026"</span>,a spectacular talent show organized by the Arts Subcommittee of the Students’ Union, Faculty of Technology, Sabaragamuwa University of Sri Lanka. Join us in celebrating the creativity, passion, and extraordinary talents of our students!
+        <span class="text-amber-300 font-black">"Subhasara 2026"</span>, a spectacular talent show organized by the Arts Subcommittee of the Students’ Union, Faculty of Technology, Sabaragamuwa University of Sri Lanka. Join us in celebrating the creativity, passion, and extraordinary talents of our students!
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 text-amber-200 font-extrabold text-xl">
@@ -518,7 +516,6 @@
       }
     }
 
-    // 5 seconds por por background automatic change hobe
     let slideInterval = setInterval(switchSlide, 5000);
 
     /* --- MOBILE TOUCH SWIPE GESTURE DETECTOR --- */
@@ -600,4 +597,3 @@
   </script>
 </body>
 </html>
-    
